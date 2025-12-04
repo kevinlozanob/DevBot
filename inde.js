@@ -20,11 +20,14 @@ const client = new Client({
   ],
 });
 
+const lavalinkHost = process.env.LAVALINK_HOST || "localhost";
+console.log(`🔌 Conectando a Lavalink en: ${lavalinkHost}`);
+
 const lavalinkManager = new LavalinkManager({
   nodes: [
     {
-      host: process.env.LAVALINK_HOST || "localhost", 
-      host: "localhost",
+      authorization: "youshallnotpass",
+      host: lavalinkHost,
       port: 8080,
       id: "main-node",
       secure: false,
@@ -178,7 +181,9 @@ function buildQueuePage(player, page, userId) {
     slice
       .map(
         (t, i) =>
-          `${start + i + 1}. **${t.info.title}** — ${t.info.author || "Desconocido"}`
+          `${start + i + 1}. **${t.info.title}** — ${
+            t.info.author || "Desconocido"
+          }`
       )
       .join("\n") || "La cola está vacía.";
 
@@ -197,16 +202,12 @@ function buildQueuePage(player, page, userId) {
 
   row.addComponents(
     new ButtonBuilder()
-      .setCustomId(
-        `queue:prev:${player.guildId}:${userId}:${currentPage - 1}`
-      )
+      .setCustomId(`queue:prev:${player.guildId}:${userId}:${currentPage - 1}`)
       .setLabel("⬅️Anterior")
       .setStyle(ButtonStyle.Secondary)
       .setDisabled(!hasPrev),
     new ButtonBuilder()
-      .setCustomId(
-        `queue:next:${player.guildId}:${userId}:${currentPage + 1}`
-      )
+      .setCustomId(`queue:next:${player.guildId}:${userId}:${currentPage + 1}`)
       .setLabel("Siguiente➡️")
       .setStyle(ButtonStyle.Secondary)
       .setDisabled(!hasNext)
@@ -267,17 +268,16 @@ lavalinkManager.on("trackStart", (player, track) => {
     trackStats.set(guildId, new Map());
   }
   const guildStats = trackStats.get(guildId);
-  guildStats.set(
-    track.info.title,
-    (guildStats.get(track.info.title) || 0) + 1
-  );
+  guildStats.set(track.info.title, (guildStats.get(track.info.title) || 0) + 1);
 
   const embed = new EmbedBuilder()
     .setTitle("🎶 Reproduciendo ahora")
     .setDescription(
-      `**${track.info.title}**\n👤 Por: ${track.info.author}\n⏱️ Duración: ${Math.floor(
-        track.info.duration / 60000
-      )}:${Math.floor((track.info.duration % 60000) / 1000)
+      `**${track.info.title}**\n👤 Por: ${
+        track.info.author
+      }\n⏱️ Duración: ${Math.floor(track.info.duration / 60000)}:${Math.floor(
+        (track.info.duration % 60000) / 1000
+      )
         .toString()
         .padStart(2, "0")}`
     )
@@ -316,7 +316,8 @@ client.on("interactionCreate", async (interaction) => {
 
       if (interaction.user.id !== ownerId) {
         return interaction.reply({
-          content: "Solo la persona que ejecutó `/cola` puede usar estos botones.",
+          content:
+            "Solo la persona que ejecutó `/cola` puede usar estos botones.",
           ephemeral: true,
         });
       }
@@ -433,9 +434,7 @@ client.on("interactionCreate", async (interaction) => {
 
       const isUrl = /^https?:\/\//i.test(query);
 
-      const searchQuery = isUrl
-        ? { query }
-        : { query, source: "ytsearch" };
+      const searchQuery = isUrl ? { query } : { query, source: "ytsearch" };
 
       const res = await player.search(searchQuery, interaction.user);
 
@@ -671,8 +670,7 @@ client.on("interactionCreate", async (interaction) => {
       .sort((a, b) => b[1] - a[1])
       .slice(0, 10)
       .map(
-        (entry, i) =>
-          `${i + 1}. **${entry[0]}** — ${entry[1]} reproducciones`
+        (entry, i) => `${i + 1}. **${entry[0]}** — ${entry[1]} reproducciones`
       )
       .join("\n");
 
@@ -704,7 +702,9 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
   if (oldChannelId && !newChannelId) {
     const textChannel = client.channels.cache.get(player.textChannelId);
     if (textChannel && textChannel.isTextBased()) {
-      await textChannel.send("Me sacaron del canal de voz, así que la buena, nos pillamos luego. 👋");
+      await textChannel.send(
+        "Me sacaron del canal de voz, así que la buena, nos pillamos luego. 👋"
+      );
     }
     await player.destroy();
     return;
@@ -714,7 +714,9 @@ client.on("voiceStateUpdate", async (oldState, newState) => {
   if (oldChannelId && newChannelId && oldChannelId !== newChannelId) {
     const textChannel = client.channels.cache.get(player.textChannelId);
     if (textChannel && textChannel.isTextBased()) {
-      await textChannel.send("Me movieron de canal de voz, así que paré la música por si acaso aguevao. 🤨");
+      await textChannel.send(
+        "Me movieron de canal de voz, así que paré la música por si acaso aguevao. 🤨"
+      );
     }
   }
 });
