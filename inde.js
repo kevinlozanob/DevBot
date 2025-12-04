@@ -23,7 +23,7 @@ const client = new Client({
 const lavalinkManager = new LavalinkManager({
   nodes: [
     {
-      authorization: "youshallnotpass",
+      host: process.env.LAVALINK_HOST || "localhost", 
       host: "localhost",
       port: 8080,
       id: "main-node",
