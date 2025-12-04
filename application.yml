@@ -1,0 +1,47 @@
+server:
+  port: 8080
+  address: 0.0.0.0
+
+lavalink:
+  server:
+    password: "youshallnotpass"
+    sources:
+      youtube: false        # usamos el plugin youtube-source
+      bandcamp: true
+      soundcloud: true
+      twitch: true
+      vimeo: true
+      http: true
+      local: false
+    bufferDurationMs: 400
+    frameBufferDurationMs: 5000
+    opusEncodingQuality: 10
+    resamplingQuality: LOW
+    trackStuckThresholdMs: 10000
+    useSeekGhosting: true
+    youtubePlaylistLoadLimit: 6
+    playerUpdateInterval: 5
+    youtubeSearchEnabled: true
+    soundcloudSearchEnabled: true
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIdAccess: true
+    allowDirectPlaylistIdAccess: true
+
+  lavasrc:
+    sources:  # <--- ESTO ES LO QUE TE FALTABA, PARCE
+      spotify: true    # Activamos Spotify
+      applemusic: false
+      deezer: false
+      yandexmusic: false
+      flowerytts: false
+      youtube: true
+    spotify:
+      clientId: "d57ea574a0b342beba1f187d2b78d010"
+      clientSecret: "e49b16cbdeb74be19cee05aa6558e02f"
+      countryCode: "US"
+      playlistLoadLimit: 6
+      albumLoadLimit: 6

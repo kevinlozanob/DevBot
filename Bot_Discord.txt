@@ -1,0 +1,17 @@
+Autoplay
+Botones
+Autoreconexion del bot
+Eliminar una canción en espcifico de la cola
+Setear no en comando si no automaticamente cada 5 minutos musica
+Sistema de Favoritos
+
+quiero añadir una logica de autoreconexión del bot Si Discord crashea o la conexión se va:
+
+El bot vuelve al canal
+
+Recupera la cola
+
+Sigue sonando
+No más vergüenza cuando tu bot se muere,4. y me gustaria un sistema de favoritos /favorito	💖 Favoritos	Guarda canción actual
+/misfavoritos	💖 Favoritos	Lista tus favoritos
+/reproducirfavorito	💖 Favoritos	Reproduce un favorito, entonces los favoritos son por persona no por servidor, y pues el reproducir favorito entonces no que haga una cola sino similar una lista y que diga reproducir favorito 5 y pues reproduzca ahi si en el bot la musica favorita mas para tenerla a la mano 
